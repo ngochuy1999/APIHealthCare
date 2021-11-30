@@ -1,0 +1,13 @@
+{
+  "properties": [
+    {
+      "name": "app.firebase-configuration-file",
+      "type": "java.lang.String",
+      "description": "Description for app.firebase-configuration-file."
+    },
+    {
+      "name": "app.notifications.defaults",
+      "type": "java.lang.String",
+      "description": "Description for app.notifications.defaults."
+    }
+  ] }

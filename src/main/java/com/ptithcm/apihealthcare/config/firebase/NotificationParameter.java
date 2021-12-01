@@ -1,8 +1,9 @@
 package com.ptithcm.apihealthcare.config.firebase;
 
 public enum NotificationParameter {
-    SOUND("default"),
-    COLOR("#FFFF00");
+    SOUND("alarm"),
+    COLOR("#FFFF00"),
+    CHANNEL_ID("fcm_health_care");
 
     private String value;
 

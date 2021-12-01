@@ -22,12 +22,7 @@ public class MedicalBillRESTController {
             produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseBody
     public ResponseEntity<?> addInvoiceDetail(@RequestBody MedicalBillRequest medicalRequest){
-        MedicalBill result = medicalBillService.addMedicalBill(medicalRequest);
-        if(result != null){
-            return ResponseEntity.ok(new ObjectResponse("1","Đăng kí khám thành công",true,result));
-        }else{
-            return ResponseEntity.ok(new ObjectResponse("0","Đăng kí khám không thành công",false,null));
-        }
+        return medicalBillService.addMedicalBill(medicalRequest);
     }
 
     @GetMapping(value = "/consultation",

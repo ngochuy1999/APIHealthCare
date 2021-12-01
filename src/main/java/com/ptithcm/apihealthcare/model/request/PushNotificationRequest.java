@@ -10,10 +10,11 @@ public class PushNotificationRequest {
     public PushNotificationRequest() {
     }
 
-    public PushNotificationRequest(String title, String messageBody, String topicName) {
+    public PushNotificationRequest(String title, String message, String topic, String token) {
         this.title = title;
-        this.message = messageBody;
-        this.topic = topicName;
+        this.message = message;
+        this.topic = topic;
+        this.token = token;
     }
 
     public String getTitle() {

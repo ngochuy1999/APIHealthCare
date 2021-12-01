@@ -24,8 +24,8 @@ public class MedicalBillController {
     @GetMapping(value = "/medical-bill-examine",
             produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseBody
-    public MedicalBill getMedicalExamine(@RequestParam("doctorId") int id){
-        MedicalBill medicalBill = medicalBillService.getMedicalExamineByDoctor(id);
+    public List<MedicalBill> getMedicalExamine(@RequestParam("doctorId") int id){
+        List<MedicalBill> medicalBill = medicalBillService.getMedicalExamineByDoctor(id);
         return medicalBill;
     }
 }

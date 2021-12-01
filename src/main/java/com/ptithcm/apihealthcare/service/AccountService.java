@@ -162,6 +162,9 @@ public class AccountService {
     public ResponseEntity<?> changeInfo(EditProfileParam profileParam){
         return accountDAO.updateUser(profileParam);
     }
+    public ResponseEntity<?> changeFCMToken(int id, String token){
+        return accountDAO.updateFCMToken(id,token);
+    }
 
     public ResponseEntity<?> changePassword(ChangePassParam changePassParam){
         return accountDAO.changePassword(changePassParam.getUserid(),changePassParam.getOldpass(),changePassParam.getNewpassword());

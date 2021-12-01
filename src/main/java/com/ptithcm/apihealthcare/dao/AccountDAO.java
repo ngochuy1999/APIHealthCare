@@ -122,6 +122,28 @@ public class AccountDAO {
         return  ResponseEntity.ok(new ObjectResponse("0","Cập nhật thông tin không thành công",false,null));
     }
 
+    public ResponseEntity<?> updateFCMToken(int id, String token){
+        Session session = sessionFactory.openSession();
+        Transaction t = session.beginTransaction();
+        try {
+            String hql = "UPDATE Account set token = :token WHERE accountId = :id";
+            Query query = session.createQuery(hql);
+            query.setParameter("token", token);
+            query.setParameter("id",id);
+            int result = query.executeUpdate();
+            t.commit();
+            if(result==1) {
+                return ResponseEntity.ok(new ObjectResponse("1","Cập nhật thông tin thành công",true, token));
+            }
+            else  return ResponseEntity.ok(new ObjectResponse("0","Cập nhật thông tin không thành công",false,null));
+        } catch (Exception e) {
+            t.rollback();
+            System.out.println(e);
+        } finally {
+            session.close();
+        }
+        return  ResponseEntity.ok(new ObjectResponse("0","Cập nhật thông tin không thành công",false,null));
+    }
 
     public ResponseEntity<?> changePassword(int id, String oldPassword, String newPassword) {
         Session session = sessionFactory.openSession();

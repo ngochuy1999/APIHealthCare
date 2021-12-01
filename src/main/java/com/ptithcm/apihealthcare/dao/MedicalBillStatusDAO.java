@@ -50,7 +50,7 @@ public class MedicalBillStatusDAO {
     public Boolean cancelBill(int medicalId){
         Session session = sessionFactory.getCurrentSession();
         MedicalBill medicalBillUpdate = (MedicalBill) session.get(MedicalBill.class, medicalId);
-        if(medicalBillUpdate.getMedicalBillStatus().getStatusId()==1) {
+        if(medicalBillUpdate.getMedicalBillStatus().getStatusId()==1 || medicalBillUpdate.getMedicalBillStatus().getStatusId()==2) {
             MedicalBillStatus medicalBillStatus = (MedicalBillStatus) session.createQuery("FROM MedicalBillStatus as m WHERE m.statusId = 4").uniqueResult();
             medicalBillUpdate.setMedicalBillStatus(medicalBillStatus);
             session.update(medicalBillUpdate);

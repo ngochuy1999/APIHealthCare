@@ -26,17 +26,17 @@ public class Doctor {
     @Column(name = "lastName",nullable = false)
     private String lastName;
 
-    @Column(name = "isWorking")
+    @Column(name = "isWorking",nullable = false)
     private Integer isWorking;
 
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "dd/MM/yyyy")
-    @Column(name = "birthday")
+    @Column(name = "birthday",nullable = false)
     private Date birthday;
 
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "dd/MM/yyyy")
-    @Column(name = "dateBegin")
+    @Column(name = "dateBegin",nullable = false)
     private Date dateBegin;
 
     @Temporal(TemporalType.DATE)
@@ -44,15 +44,17 @@ public class Doctor {
     @Column(name = "dateEnd")
     private Date dateEnd;
 
-    @Column(name = "yearExperience")
+    @Column(name = "yearExperience",nullable = false)
     private String yearExperience;
 
-    @Column(name = "timeAdvise")
+    @Column(name = "timeAdvise",nullable = false)
     private Integer timeAdvise;
 
-    @Column(name = "description")
+    @Column(name = "description",nullable = false)
     private String description;
 
+    @Column(name = "imageUrl",nullable = false)
+    private String imageUrl;
 
     @Column(name = "active")
     private Integer active;
@@ -163,10 +165,6 @@ public class Doctor {
         this.active = active;
     }
 
-    public Account getAccount() {
-        return account;
-    }
-
     public void setAccount(Account account) {
         this.account = account;
     }
@@ -177,22 +175,6 @@ public class Doctor {
 
     public void setConsultingRoom(ConsultingRoom consultingRoom) {
         this.consultingRoom = consultingRoom;
-    }
-
-    public List<QRCode> getQrCodes() {
-        return qrCodes;
-    }
-
-    public void setQrCodes(List<QRCode> qrCodes) {
-        this.qrCodes = qrCodes;
-    }
-
-    public List<MedicalBill> getMedicalBills() {
-        return medicalBills;
-    }
-
-    public void setMedicalBills(List<MedicalBill> medicalBills) {
-        this.medicalBills = medicalBills;
     }
 
     public List<TestResult> getTestResults() {
@@ -227,12 +209,27 @@ public class Doctor {
         this.description = description;
     }
 
+    public void setQrCodes(List<QRCode> qrCodes) {
+        this.qrCodes = qrCodes;
+    }
 
-    public Speciality getSpeciality() {
-        return speciality;
+    public void setMedicalBills(List<MedicalBill> medicalBills) {
+        this.medicalBills = medicalBills;
     }
 
     public void setSpeciality(Speciality speciality) {
         this.speciality = speciality;
+    }
+
+    public void setLikes(Set<Patient> likes) {
+        this.likes = likes;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

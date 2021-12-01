@@ -83,6 +83,14 @@ public class AuthRESTController {
         return accountService.changeInfo(profileParam);
     }
 
+    @PutMapping(value = "/fcm-token",
+            produces = {MediaType.APPLICATION_JSON_VALUE})
+    @ResponseBody
+    public ResponseEntity<?> changeFCMToken(@RequestParam("id") int id,
+                                            @RequestParam("token") String token){
+        return accountService.changeFCMToken(id,token);
+    }
+
     @PutMapping(value = "/password",
             produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseBody

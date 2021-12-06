@@ -14,11 +14,17 @@ public class SpecialityDAO {
     @Autowired
     private SessionFactory sessionFactory;
 
-    public List<Speciality> getAllSpecialities(){
+    public List<Speciality> getTopSpecialities(){
         Session session = sessionFactory.getCurrentSession();
         Query query = (Query) session.createQuery("FROM "+Speciality.class.getName()).setFirstResult(0)
                 .setMaxResults(8);
         List<Speciality> listSpecialities = (List<Speciality>) query.list();
+        return listSpecialities;
+    }
+
+    public List<Speciality> getListSpecialities(){
+        Session session = sessionFactory.getCurrentSession();
+        List<Speciality> listSpecialities = (List<Speciality>) session.createQuery("FROM "+Speciality.class.getName()).list();
         return listSpecialities;
     }
 }

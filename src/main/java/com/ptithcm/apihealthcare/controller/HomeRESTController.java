@@ -2,14 +2,13 @@ package com.ptithcm.apihealthcare.controller;
 
 import com.ptithcm.apihealthcare.entities.Doctor;
 import com.ptithcm.apihealthcare.entities.Speciality;
+import com.ptithcm.apihealthcare.model.reponse.ObjectResponse;
 import com.ptithcm.apihealthcare.service.DoctorService;
 import com.ptithcm.apihealthcare.service.SpecialityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,20 +22,36 @@ public class HomeRESTController {
     private DoctorService doctorService;
 
 
-    @GetMapping(value = "/listSpeciality",
+    @GetMapping(value = "/topSpeciality",
             produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseBody
-    public List<Speciality> getAllSpecialities(){
-        List<Speciality> list = specialityService.getAllSpecialities();
+    public List<Speciality> getTopSpecialities(){
+        List<Speciality> list = specialityService.getTopSpecialities();
         return list;
     }
 
-
-    @GetMapping(value = "/listDoctor",
+    @GetMapping(value = "/allSpeciality",
             produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseBody
-    public List<Doctor> getTopDoctors(){
-        List<Doctor> list = doctorService.getTopDoctors();
+    public List<Speciality> getAllSpecialities(){
+        List<Speciality> list = specialityService.getListSpecialities();
+        return list;
+    }
+
+    @GetMapping(value = "/isLike",
+            produces = {MediaType.APPLICATION_JSON_VALUE})
+    @ResponseBody
+    public ResponseEntity<?> checkLike(@RequestParam("pid") int pid,
+                                       @RequestParam("doctorId") int doctorId){
+        if(doctorService.checkIsLike(pid,doctorId)) return ResponseEntity.ok(new ObjectResponse("","",true,null));
+                else return ResponseEntity.ok(new ObjectResponse("","",false,null));
+    }
+
+    @GetMapping(value = "/topDoctor",
+            produces = {MediaType.APPLICATION_JSON_VALUE})
+    @ResponseBody
+    public List<Doctor> getTopDoctors() {
+        List<Doctor> list = doctorService.getListDoctors();
         return list;
     }
 
@@ -45,6 +60,14 @@ public class HomeRESTController {
     @ResponseBody
     public List<Doctor> getAllDoctors(){
         List<Doctor> list = doctorService.getAllDoctors();
+        return list;
+    }
+
+    @GetMapping(value = "/doctor_specialize",
+            produces = {MediaType.APPLICATION_JSON_VALUE})
+    @ResponseBody
+    public List<Doctor> getDoctorsBySpecial(@RequestParam("specialId") int specialId){
+        List<Doctor> list = doctorService.getListDoctorsBySpecial(specialId);
         return list;
     }
 }

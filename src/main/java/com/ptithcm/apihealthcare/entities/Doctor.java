@@ -89,8 +89,6 @@ public class Doctor {
     @JoinColumn(name = "specialityId")
     private Speciality speciality;
 
-    @ManyToMany(mappedBy = "favoriteDoctor")
-    Set<Patient> likes;
 
     public Integer getDoctorId() {
         return doctorId;
@@ -219,10 +217,6 @@ public class Doctor {
 
     public void setSpeciality(Speciality speciality) {
         this.speciality = speciality;
-    }
-
-    public void setLikes(Set<Patient> likes) {
-        this.likes = likes;
     }
 
     public String getImageUrl() {

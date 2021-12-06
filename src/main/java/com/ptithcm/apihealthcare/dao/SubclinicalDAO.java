@@ -14,9 +14,9 @@ public class SubclinicalDAO {
     @Autowired
     private SessionFactory sessionFactory;
 
-    public List<Subclinical> listSubclinical(){
+    public List<Subclinical> listSubclinical(int specialityId){
         Session session = sessionFactory.getCurrentSession();
-        return (List<Subclinical>) session.createQuery("from Subclinical").list();
+        return (List<Subclinical>) session.createQuery("from Subclinical as s where s.speciality.specialityId='"+specialityId+"'").list();
     }
 
     public Subclinical findSubclinical(int subId){

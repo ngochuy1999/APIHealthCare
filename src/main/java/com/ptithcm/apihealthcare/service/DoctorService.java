@@ -36,6 +36,18 @@ public class DoctorService {
         return doctorDAO.getTopDoctors();
     }
 
+    public List<Doctor> getListDoctors(){
+        return doctorDAO.getListDoctors();
+    }
+
+    public List<Doctor> getListDoctorsBySpecial(int specialId){
+        return doctorDAO.getListDoctorsBySpecial(specialId);
+    }
+
+    public Boolean checkIsLike(int pid, int doctorId){
+        return doctorDAO.checkIsLike( pid, doctorId);
+    }
+
     public List<Doctor> getAllDoctors(){
         return doctorDAO.getAllDoctors();
     }

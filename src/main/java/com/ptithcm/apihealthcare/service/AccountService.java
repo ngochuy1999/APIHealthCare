@@ -170,6 +170,18 @@ public class AccountService {
         return accountDAO.changePassword(changePassParam.getUserid(),changePassParam.getOldpass(),changePassParam.getNewpassword());
     }
 
+    public ResponseEntity<?> updateAvatar(String url, int id){
+        return accountDAO.updateAvatar(url,id);
+    }
+
+    public ResponseEntity<?> updateCover(String url, int id){
+        return accountDAO.updateCover(url,id);
+    }
+
+    public List<Doctor> listFavDoc(int id){
+        return accountDAO.listFavoriteDoctor(id);
+    }
+
     public boolean confirm(String email){
         return accountDAO.confirm(email);
     }

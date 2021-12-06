@@ -1,11 +1,13 @@
 package com.ptithcm.apihealthcare.controller.admin;
 
+import com.ptithcm.apihealthcare.entities.Speciality;
 import com.ptithcm.apihealthcare.entities.Subclinical;
 import com.ptithcm.apihealthcare.entities.TestForm;
 import com.ptithcm.apihealthcare.entities.TestFormDetail;
 import com.ptithcm.apihealthcare.model.reponse.ObjectResponse;
 import com.ptithcm.apihealthcare.model.request.SubclinicalParam;
 import com.ptithcm.apihealthcare.model.request.TestFormParam;
+import com.ptithcm.apihealthcare.service.SpecialityService;
 import com.ptithcm.apihealthcare.service.TestFormService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -20,31 +22,33 @@ public class TestFormController {
     @Autowired
     private TestFormService testFormService;
 
-    @PostMapping(value = "/create-testForm",
-            produces = {MediaType.APPLICATION_JSON_VALUE})
-    @ResponseBody
-    public ResponseEntity<?> createTestForm(@RequestBody TestFormParam testFormParam){
+    @Autowired
+    private SpecialityService specialityService;
 
-        TestForm result = testFormService.addTestForm(testFormParam);
-        if(result == null)  return ResponseEntity.ok(new ObjectResponse("0","Tạo phiếu kiểm tra",false,null));
-        else return ResponseEntity.ok(new ObjectResponse("1","Tạo phiếu kiểm tra thành công",true,result));
-    }
 
     @PostMapping(value = "/subclinical-testForm",
             produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseBody
     public ResponseEntity<?> addSubclinical(@RequestBody SubclinicalParam subclinicalParam){
 
-        TestFormDetail result = testFormService.addSubclinical(subclinicalParam);
+        TestForm result = testFormService.addSubclinical(subclinicalParam);
         if(result == null)  return ResponseEntity.ok(new ObjectResponse("0","Thêm chỉ định lâm sàng không thành công",false,null));
         else return ResponseEntity.ok(new ObjectResponse("1","Thêm chỉ định lâm sàng thành công",true,result));
+    }
+
+        @GetMapping(value = "/listSpeciality",
+            produces = {MediaType.APPLICATION_JSON_VALUE})
+    @ResponseBody
+    public List<Speciality> getAllSpecialities(){
+        List<Speciality> list = specialityService.getListSpecialities();
+        return list;
     }
 
     @GetMapping(value = "/subclinical",
             produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseBody
-    public List<Subclinical> listSubclinical(){
-        return testFormService.listSubclinical();
+    public List<Subclinical> listSubclinical(@RequestParam("specialityId") int specialityId){
+        return testFormService.listSubclinical(specialityId);
     }
 
     @GetMapping(value = "/test-form",

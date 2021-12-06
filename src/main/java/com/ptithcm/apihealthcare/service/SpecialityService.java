@@ -15,7 +15,11 @@ public class SpecialityService {
     @Autowired
     SpecialityDAO specialityDAO;
 
-    public List<Speciality> getAllSpecialities(){
-        return specialityDAO.getAllSpecialities();
+    public List<Speciality> getTopSpecialities(){
+        return specialityDAO.getTopSpecialities();
+    }
+
+    public List<Speciality> getListSpecialities(){
+        return specialityDAO.getListSpecialities();
     }
 }

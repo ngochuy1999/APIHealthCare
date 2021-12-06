@@ -8,6 +8,7 @@ import com.ptithcm.apihealthcare.entities.Subclinical;
 import com.ptithcm.apihealthcare.entities.TestForm;
 import com.ptithcm.apihealthcare.entities.TestFormDetail;
 import com.ptithcm.apihealthcare.entities.TestFormDetailKey;
+import com.ptithcm.apihealthcare.model.request.SubclinicalInTest;
 import com.ptithcm.apihealthcare.model.request.SubclinicalParam;
 import com.ptithcm.apihealthcare.model.request.TestFormParam;
 import org.hibernate.Session;
@@ -35,11 +36,10 @@ public class TestFormService {
 
 
     //create test form
-    public TestForm addTestForm(TestFormParam testFormParam){
+    public TestForm addTestForm(int billId, String diagnostic){
         TestForm testForm = new TestForm();
-
-        testForm.setMedicalBill(medicalBillDAO.findMedicalBill(testFormParam.getMedicalBillId()));
-        testForm.setDiagnostic(testFormParam.getDiagnostic());
+        testForm.setMedicalBill(medicalBillDAO.findMedicalBill(billId));
+        testForm.setDiagnostic(diagnostic);
         testForm.setIsPay(0);
         testForm.setActive(1);
 
@@ -48,21 +48,24 @@ public class TestFormService {
     }
 
     // create test form detail
-    public TestFormDetail addSubclinical (SubclinicalParam subclinicalParam) {
+    public TestForm addSubclinical (SubclinicalParam subclinicalParam) {
         try {
-            TestFormDetail testFormDetail = new TestFormDetail();
-            TestFormDetailKey ik = new TestFormDetailKey();
-            ik.setSubclinicalId(subclinicalParam.getSubclinicalId());
-            ik.setTestFormId(subclinicalParam.getTestFormId());
-            testFormDetail.setId(ik);
-            testFormDetail.setSubclinical(subclinicalDAO.findSubclinical(subclinicalParam.getSubclinicalId()));
-            testFormDetail.setTestForm(testFormDAO.findTestForm(subclinicalParam.getTestFormId()));
-            testFormDetail.setNote(subclinicalParam.getNote());
-            long millis=System.currentTimeMillis();   java.sql.Date date=new java.sql.Date(millis);
-            testFormDetail.setAssignTime(date);
-            testFormDetailDAO.addTestFormDetail(testFormDetail);
-
-            return testFormDetail;
+            TestForm testForm = addTestForm(subclinicalParam.getMedicalBillId(),subclinicalParam.getDiagnostic());
+            for (SubclinicalInTest subclinicalInTest : subclinicalParam.getListSubclinicalInTests()) {
+                TestFormDetail testFormDetail = new TestFormDetail();
+                TestFormDetailKey ik = new TestFormDetailKey();
+                ik.setSubclinicalId(subclinicalInTest.getSubclinicalId());
+                ik.setTestFormId(testForm.getId());
+                testFormDetail.setId(ik);
+                testFormDetail.setSubclinical(subclinicalDAO.findSubclinical(subclinicalInTest.getSubclinicalId()));
+                testFormDetail.setTestForm(testForm);
+                testFormDetail.setNote(subclinicalInTest.getNote());
+                long millis = System.currentTimeMillis();
+                java.sql.Date date = new java.sql.Date(millis);
+                testFormDetail.setAssignTime(date);
+                testFormDetailDAO.addTestFormDetail(testFormDetail);
+            }
+            return testForm;
         }catch (Exception e) {
             System.out.println("Loi" + e);
         }
@@ -70,8 +73,8 @@ public class TestFormService {
     }
 
     //list subclinical
-    public List<Subclinical> listSubclinical(){
-        return subclinicalDAO.listSubclinical();
+    public List<Subclinical> listSubclinical(int specialityId){
+        return subclinicalDAO.listSubclinical(specialityId);
     }
 
     public List<TestForm> testFormList(int billId){

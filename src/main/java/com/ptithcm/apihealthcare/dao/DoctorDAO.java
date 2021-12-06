@@ -40,6 +40,24 @@ public class DoctorDAO {
         return doctorList;
     }
 
+    public List<Doctor> getListDoctors(){
+        Session session = sessionFactory.getCurrentSession();
+        List<Doctor> doctorList = (List<Doctor>) session.createQuery("FROM "+Doctor.class.getName()).list();
+        return doctorList;
+    }
+
+    public List<Doctor> getListDoctorsBySpecial(int specialId){
+        Session session = sessionFactory.getCurrentSession();
+        List<Doctor> doctorList = (List<Doctor>) session.createQuery("FROM Doctor as d where d.speciality.specialityId='"+specialId+"'").list();
+        return doctorList;
+    }
+
+    public Boolean checkIsLike(int pid, int doctorId){
+        Session session = sessionFactory.getCurrentSession();
+        FavoriteDoctor favoriteDoctor = (FavoriteDoctor) session.createQuery("FROM FavoriteDoctor as f where f.id.patient.userId='"+pid+"' and f.id.doctor.doctorId='"+doctorId+"'").uniqueResult();
+        return favoriteDoctor != null;
+    }
+
     public List<Doctor> getAllDoctors(){
         Session session = sessionFactory.getCurrentSession();
         Query query = (Query) session.createQuery("FROM "+Doctor.class.getName());

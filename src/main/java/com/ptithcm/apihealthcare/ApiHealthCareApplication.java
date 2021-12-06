@@ -20,7 +20,6 @@ public class ApiHealthCareApplication {
 //        return new WebMvcConfigurer() {
 //            @Override
 //            public void addCorsMappings(CorsRegistry registry) {
-//                registry.addMapping("/api/*").allowedOrigins("http://localhost:3000");
 //                registry.addMapping("/api/admin/*").allowedOrigins("http://localhost:3000");
 //            }
 //        };

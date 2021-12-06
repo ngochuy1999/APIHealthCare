@@ -42,12 +42,6 @@ public class Patient {
     @JoinColumn(name = "PID")
     private Account account;
 
-    @ManyToMany
-    @JoinTable(
-            name = "FavoriteDoctor",
-            joinColumns = @JoinColumn(name = "PID"),
-            inverseJoinColumns = @JoinColumn(name = "doctorId"))
-    Set<Doctor> favoriteDoctor;
 
     public int getUserId() {
         return userId;

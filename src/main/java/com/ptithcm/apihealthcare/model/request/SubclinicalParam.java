@@ -1,34 +1,34 @@
 package com.ptithcm.apihealthcare.model.request;
 
 import java.util.Date;
+import java.util.List;
 
 public class SubclinicalParam {
-    private Integer testFormId;
-    private Integer subclinicalId;
-    private String note;
+    private String diagnostic;
+    private Integer medicalBillId;
+    private List<SubclinicalInTest> listSubclinicalInTests;
 
-    public Integer getTestFormId() {
-        return testFormId;
+    public String getDiagnostic() {
+        return diagnostic;
     }
 
-    public void setTestFormId(Integer testFormId) {
-        this.testFormId = testFormId;
+    public void setDiagnostic(String diagnostic) {
+        this.diagnostic = diagnostic;
     }
 
-    public Integer getSubclinicalId() {
-        return subclinicalId;
+    public Integer getMedicalBillId() {
+        return medicalBillId;
     }
 
-    public void setSubclinicalId(Integer subclinicalId) {
-        this.subclinicalId = subclinicalId;
+    public void setMedicalBillId(Integer medicalBillId) {
+        this.medicalBillId = medicalBillId;
     }
 
-
-    public String getNote() {
-        return note;
+    public List<SubclinicalInTest> getListSubclinicalInTests() {
+        return listSubclinicalInTests;
     }
 
-    public void setNote(String note) {
-        this.note = note;
+    public void setListSubclinicalInTests(List<SubclinicalInTest> listSubclinicalInTests) {
+        this.listSubclinicalInTests = listSubclinicalInTests;
     }
 }

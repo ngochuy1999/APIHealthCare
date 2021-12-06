@@ -11,6 +11,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @RestController
 @RequestMapping("/api")
@@ -98,6 +100,22 @@ public class AuthRESTController {
         return accountService.changePassword(changePassParam);
     }
 
+    @PutMapping(value = "/avatar",
+            produces = {MediaType.APPLICATION_JSON_VALUE})
+    @ResponseBody
+    public ResponseEntity<?> updateAvatar(@RequestParam("url") String url,
+                                          @RequestParam("id") int id){
+        return accountService.updateAvatar(url,id);
+    }
+
+    @PutMapping(value = "/cover",
+            produces = {MediaType.APPLICATION_JSON_VALUE})
+    @ResponseBody
+    public ResponseEntity<?> updateCover(@RequestParam("url") String url,
+                                          @RequestParam("id") int id){
+        return accountService.updateCover(url,id);
+    }
+
     @GetMapping(value = "/confirmAcc",
             produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseBody
@@ -106,6 +124,13 @@ public class AuthRESTController {
         boolean result = accountService.confirm(email);
         if(!result)  return "Activation failed";
         else return "Successful activation";
+    }
+
+    @GetMapping(value = "/favoriteDoctor",
+            produces = {MediaType.APPLICATION_JSON_VALUE})
+    @ResponseBody
+    public List<Doctor> listFavDoc(@RequestParam (value = "accountId") int id){
+        return accountService.listFavDoc(id);
     }
 
 

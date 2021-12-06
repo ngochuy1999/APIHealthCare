@@ -142,7 +142,7 @@ public class AccountDAO {
         } finally {
             session.close();
         }
-        return  ResponseEntity.ok(new ObjectResponse("0","Cập nhật thông tin không thành công",false,null));
+            return  ResponseEntity.ok(new ObjectResponse("0","Cập nhật thông tin không thành công",false,null));
     }
 
     public ResponseEntity<?> changePassword(int id, String oldPassword, String newPassword) {
@@ -173,12 +173,69 @@ public class AccountDAO {
         return ResponseEntity.ok(new ObjectResponse("0","Đổi mật khẩu không thành công",false,null));
     }
 
+    public ResponseEntity<?> updateAvatar(String url,int id) {
+        Session session = sessionFactory.openSession();
+        Transaction t = session.beginTransaction();
+        try {
+                String hql = "UPDATE Account set avatar = :avatar " +
+                        " WHERE accountId = :id";
+                Query query = session.createQuery(hql);
+                query.setParameter("avatar", url);
+                query.setParameter("id", id);
+                int result = query.executeUpdate();
+                t.commit();
+                if (result == 1) {
+                    Account accountnew = getAccount(id);
+                    return ResponseEntity.ok(new ObjectResponse("1","Đổi ảnh thành công",true,accountnew));
+                }
+                else return ResponseEntity.ok(new ObjectResponse("0","Đổi ảnh không thành công",false,null));
+
+        } catch (Exception e) {
+            t.rollback();
+            System.out.println("Loi" + e);
+        } finally {
+            session.close();
+        }
+        return ResponseEntity.ok(new ObjectResponse("0","Đổi ảnh không thành công",false,null));
+    }
+
+    public ResponseEntity<?> updateCover(String url,int id) {
+        Session session = sessionFactory.openSession();
+        Transaction t = session.beginTransaction();
+        try {
+            String hql = "UPDATE Account set cover = :cover " +
+                    " WHERE accountId = :id";
+            Query query = session.createQuery(hql);
+            query.setParameter("cover", url);
+            query.setParameter("id", id);
+            int result = query.executeUpdate();
+            t.commit();
+            if (result == 1) {
+                Account accountnew = getAccount(id);
+                return ResponseEntity.ok(new ObjectResponse("1","Đổi ảnh thành công",true,accountnew));
+            }
+            else return ResponseEntity.ok(new ObjectResponse("0","Đổi ảnh không thành công",false,null));
+
+        } catch (Exception e) {
+            t.rollback();
+            System.out.println("Loi" + e);
+        } finally {
+            session.close();
+        }
+        return ResponseEntity.ok(new ObjectResponse("0","Đổi ảnh không thành công",false,null));
+    }
+
     public Boolean confirm(String email){
         Session session = sessionFactory.getCurrentSession();
         Account accUpdate= (Account) session.createQuery("FROM Account as a WHERE a.email= '"+email+"'").uniqueResult();
         accUpdate.setIsAccuracy(1);
         session.update(accUpdate);
         return true;
+    }
+
+    public List<Doctor> listFavoriteDoctor(int id){
+        Session session = sessionFactory.getCurrentSession();
+        return (List<Doctor>) session.createQuery("select f.id.doctor from FavoriteDoctor f where f.id.patient.userId = '"+id+"'").list();
     }
 
     public String convertFormat(String dateTime,String fromFormat,String toFormat){

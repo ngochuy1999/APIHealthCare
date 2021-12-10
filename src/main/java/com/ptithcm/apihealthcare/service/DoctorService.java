@@ -52,6 +52,8 @@ public class DoctorService {
         return doctorDAO.getAllDoctors();
     }
 
+    public Doctor getDoctor(int doctorId){return doctorDAO.getDoctor(doctorId);}
+
     public ResponseEntity<?> signup(AccountParam accountParam){
 
         if(accountDAO.checkEmail(accountParam.getEmail())){

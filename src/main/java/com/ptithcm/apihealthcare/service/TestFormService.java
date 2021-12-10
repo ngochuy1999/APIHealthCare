@@ -77,6 +77,12 @@ public class TestFormService {
         return subclinicalDAO.listSubclinical(specialityId);
     }
 
+    public List<Subclinical> listSubclinicalByTestForm(int specialityId){
+        return subclinicalDAO.listSubclinicalByTestForm(specialityId);
+    }
+
+    public TestForm findTestForm(int id){ return testFormDAO.findTestForm(id);}
+
     public List<TestForm> testFormList(int billId){
         return  testFormDAO.testFormList(billId);
     }

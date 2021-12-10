@@ -16,6 +16,8 @@ public class FCMInitializer {
 
     @Value("${app.firebase-configuration-file}")
     private String firebaseConfigPath;
+    @Value("${application.firebase.storage.bucket}")
+    private String storageBucket;
 
     Logger logger = LoggerFactory.getLogger(FCMInitializer.class);
 
@@ -23,7 +25,9 @@ public class FCMInitializer {
     public void initialize() {
         try {
             FirebaseOptions options = new FirebaseOptions.Builder()
-                    .setCredentials(GoogleCredentials.fromStream(new ClassPathResource(firebaseConfigPath).getInputStream())).build();
+                    .setStorageBucket(storageBucket)
+                    .setCredentials(GoogleCredentials.fromStream(new ClassPathResource(firebaseConfigPath).getInputStream()))
+                    .build();
             if (FirebaseApp.getApps().isEmpty()) {
                 FirebaseApp.initializeApp(options);
                 logger.info("Firebase application has been initialized");

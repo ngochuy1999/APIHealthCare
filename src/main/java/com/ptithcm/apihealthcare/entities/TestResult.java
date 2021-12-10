@@ -9,6 +9,7 @@ import java.util.Date;
 @Table(name = "TestResult")
 public class TestResult {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "resultId",unique = true,nullable = false)
     private Integer resultId;
 
@@ -30,11 +31,11 @@ public class TestResult {
     private Integer active;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "doctorId")
+    @JoinColumn(name = "doctorId",nullable = false)
     private Doctor doctor;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "testFormId")
+    @JoinColumn(name = "testFormId",nullable = false)
     private TestForm testForm;
 
     public Integer getResultId() {

@@ -19,6 +19,11 @@ public class SubclinicalDAO {
         return (List<Subclinical>) session.createQuery("from Subclinical as s where s.speciality.specialityId='"+specialityId+"'").list();
     }
 
+    public List<Subclinical> listSubclinicalByTestForm(int specialityId){
+        Session session = sessionFactory.getCurrentSession();
+        return (List<Subclinical>) session.createQuery("select t.subclinical from TestFormDetail t where t.testForm.id='"+specialityId+"'").list();
+    }
+
     public Subclinical findSubclinical(int subId){
         Session session = sessionFactory.getCurrentSession();
         return (Subclinical) session.createQuery("from Subclinical as s where s.id ='"+subId+"'").uniqueResult();

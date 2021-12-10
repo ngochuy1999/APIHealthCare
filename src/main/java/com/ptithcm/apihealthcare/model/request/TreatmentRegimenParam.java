@@ -1,10 +1,13 @@
 package com.ptithcm.apihealthcare.model.request;
 
 import java.util.Date;
+import java.util.List;
 
 public class TreatmentRegimenParam {
 
-    private Integer treatmentId;
+    private Integer medicalBillId;
+
+    private String diagnostic;
 
     private Date dateBegin;
 
@@ -16,12 +19,30 @@ public class TreatmentRegimenParam {
 
     private Date reExaminationDate;
 
-    public Integer getTreatmentId() {
-        return treatmentId;
+    private List<PrescriptionParam> prescriptionParamList;
+
+    public Integer getMedicalBillId() {
+        return medicalBillId;
     }
 
-    public void setTreatmentId(Integer treatmentId) {
-        this.treatmentId = treatmentId;
+    public void setMedicalBillId(Integer medicalBillId) {
+        this.medicalBillId = medicalBillId;
+    }
+
+    public String getDiagnostic() {
+        return diagnostic;
+    }
+
+    public void setDiagnostic(String diagnostic) {
+        this.diagnostic = diagnostic;
+    }
+
+    public List<PrescriptionParam> getPrescriptionParamList() {
+        return prescriptionParamList;
+    }
+
+    public void setPrescriptionParamList(List<PrescriptionParam> prescriptionParamList) {
+        this.prescriptionParamList = prescriptionParamList;
     }
 
     public Date getDateBegin() {

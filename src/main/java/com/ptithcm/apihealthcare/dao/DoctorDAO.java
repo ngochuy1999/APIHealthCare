@@ -26,9 +26,9 @@ public class DoctorDAO {
 //
 //    }
 
-    public Doctor getDoctor(int PID){
+    public Doctor getDoctor(int doctorId){
         Session session = sessionFactory.getCurrentSession();
-        return (Doctor) session.createQuery("FROM Doctor p WHERE p.doctorId = '"+PID+"'").uniqueResult();
+        return (Doctor) session.createQuery("FROM Doctor p WHERE p.doctorId = '"+doctorId+"'").uniqueResult();
     }
 
     public List<Doctor> getTopDoctors(){

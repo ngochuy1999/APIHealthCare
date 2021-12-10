@@ -36,7 +36,7 @@ public class TestFormController {
         else return ResponseEntity.ok(new ObjectResponse("1","Thêm chỉ định lâm sàng thành công",true,result));
     }
 
-        @GetMapping(value = "/listSpeciality",
+    @GetMapping(value = "/listSpeciality",
             produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseBody
     public List<Speciality> getAllSpecialities(){
@@ -49,6 +49,13 @@ public class TestFormController {
     @ResponseBody
     public List<Subclinical> listSubclinical(@RequestParam("specialityId") int specialityId){
         return testFormService.listSubclinical(specialityId);
+    }
+
+    @GetMapping(value = "/subclinical-by-test",
+            produces = {MediaType.APPLICATION_JSON_VALUE})
+    @ResponseBody
+    public List<Subclinical> listSubclinicalByTesstForm(@RequestParam("testFormId") int specialityId){
+        return testFormService.listSubclinicalByTestForm(specialityId);
     }
 
     @GetMapping(value = "/test-form",

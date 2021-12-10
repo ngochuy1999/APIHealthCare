@@ -11,13 +11,13 @@ import java.util.List;
 public class MedicalRecord {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "recordId",unique = true,nullable = false)
+    @Column(name = "recordId",nullable = false)
     private Integer recordId;
 
     @Column(name = "diagnostic",nullable = false)
     private String diagnostic;
 
-    @Column(name = "drugAllergy",nullable = false)
+    @Column(name = "drugAllergy")
     private String drugAllergy;
 
     @Column(name = "active",nullable = false)

@@ -1,6 +1,5 @@
 package com.ptithcm.apihealthcare.model.request;
 
-import com.ptithcm.apihealthcare.entities.MedicalBill;
 
 public class TestFormParam {
 

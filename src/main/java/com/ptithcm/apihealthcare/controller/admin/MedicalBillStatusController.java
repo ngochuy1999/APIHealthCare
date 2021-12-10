@@ -25,7 +25,8 @@ public class MedicalBillStatusController {
     @Autowired
     private MedicalBillService medicalBillService;
 
-    @PostMapping(value = "/remind",produces = {MediaType.APPLICATION_JSON_VALUE})
+    @CrossOrigin(origins = "http://localhost:3000", maxAge = 1000)
+    @GetMapping(value = "/remind",produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseBody
     public ResponseEntity<?>remind(@RequestParam(value = "medicalId") int medicalId){
         MedicalBill medicalBill = medicalBillService.findMedicalBill(medicalId);
@@ -34,6 +35,7 @@ public class MedicalBillStatusController {
     }
 
     //Join Room
+    @CrossOrigin(origins = "http://localhost:3000", maxAge = 1000)
     @PutMapping(value = "/joinRoom",produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseBody
         public ResponseEntity<?>joinRoom(@RequestParam(value = "medicalId") int medicalId){
@@ -46,12 +48,14 @@ public class MedicalBillStatusController {
         return ResponseEntity.ok(new ObjectResponse("404","Lỗi khi tham gia khám",result,null));
     }
     //cancel invoice
+    @CrossOrigin(origins = "http://localhost:3000", maxAge = 1000)
     @PutMapping(value = "/completeBill",produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseBody
     public ResponseEntity<?>complete(@RequestParam(value = "medicalId") int medicalId){
         return ResponseEntity.ok(new ObjectResponse("200","OK",medicalBillStatusService.complete(medicalId),null));
     }
     //cancel invoice
+    @CrossOrigin(origins = "http://localhost:3000", maxAge = 1000)
     @PutMapping(value = "/cancelBill",produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseBody
     public ResponseEntity<?>cancel(@RequestParam(value = "medicalId") int medicalId){

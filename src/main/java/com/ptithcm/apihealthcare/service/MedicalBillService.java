@@ -5,6 +5,7 @@ import com.ptithcm.apihealthcare.entities.Doctor;
 import com.ptithcm.apihealthcare.entities.MedicalBill;
 import com.ptithcm.apihealthcare.entities.Patient;
 import com.ptithcm.apihealthcare.model.reponse.ObjectResponse;
+import com.ptithcm.apihealthcare.model.request.ChargeRequest;
 import com.ptithcm.apihealthcare.model.request.MedicalBillRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -71,6 +72,10 @@ public class MedicalBillService {
             medicalBillDAO.addMedicalBill(medicalBill);
             return ResponseEntity.ok(new ObjectResponse("1","Đăng kí khám thành công",true,medicalBill));
         }
+    }
+
+    public Boolean charge(ChargeRequest chargeRequest){
+        return medicalBillDAO.charge(chargeRequest);
     }
 
 //    public Boolean addMedicalBill (MedicalBillRequest medicalBillRequest) {

@@ -1,4 +1,4 @@
-package com.ptithcm.apihealthcare.dao;
+package com.ptithcm.apihealthcare.model.request;
 
 public class PnsRequest {
     private String fcmToken;

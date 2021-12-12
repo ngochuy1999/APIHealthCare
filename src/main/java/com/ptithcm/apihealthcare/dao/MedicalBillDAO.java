@@ -1,16 +1,24 @@
 package com.ptithcm.apihealthcare.dao;
 
 import com.ptithcm.apihealthcare.entities.MedicalBill;
+import com.ptithcm.apihealthcare.entities.Patient;
+import com.ptithcm.apihealthcare.entities.TestForm;
+import com.ptithcm.apihealthcare.model.reponse.ObjectResponse;
+import com.ptithcm.apihealthcare.model.request.ChargeRequest;
+import com.ptithcm.apihealthcare.model.request.EditProfileParam;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.ZonedDateTime;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -23,6 +31,27 @@ public class MedicalBillDAO {
         Session session = sessionFactory.getCurrentSession();
         session.save(medicalBill);
         return medicalBill;
+    }
+
+    public Boolean charge(ChargeRequest chargeRequest){
+        Session session = sessionFactory.openSession();
+        List<TestForm> testForms =(List<TestForm>) session.createQuery("from TestForm as t where t.medicalBill.billId= '"+chargeRequest.getBillId()+"'").list();
+
+        Transaction t = session.beginTransaction();
+        try {
+            for (TestForm testForm : testForms) {
+                session.createQuery("UPDATE TestForm set isPay = 1 WHERE id = :id")
+                        .setParameter("id", testForm.getId())
+                        .executeUpdate();
+                t.commit();
+            }
+            return true;
+        }catch (Exception e) {
+            t.rollback();
+            System.out.println(e);
+            session.close();
+        }
+        return false;
     }
 
     public List<MedicalBill> getMedicalBillByDoctor(int doctorId) {

@@ -15,13 +15,13 @@ public class ApiHealthCareApplication {
         SpringApplication.run(ApiHealthCareApplication.class, args);
     }
 
-//    @Bean
-//    public WebMvcConfigurer corsConfigurer() {
-//        return new WebMvcConfigurer() {
-//            @Override
-//            public void addCorsMappings(CorsRegistry registry) {
-//                registry.addMapping("/api/admin/*").allowedOrigins("http://localhost:3000");
-//            }
-//        };
-//    }
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/api/admin/*").allowedOrigins("http://localhost:3000");
+            }
+        };
+    }
 }

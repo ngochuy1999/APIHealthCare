@@ -36,12 +36,16 @@ public class MedicalBillService {
     @Autowired
     MedicalObjectDAO medicalObjectDAO;
 
-    public ResponseEntity<?> addMedicalBill (MedicalBillRequest medicalBillRequest){
-        if(medicalBillDAO.countBillByDoc(medicalBillRequest.getDoctorId())>=20){
-            return ResponseEntity.ok(new ObjectResponse("0","Đăng kí không thành công, quá lượt khám trong ngày",false,null));
-        }else if(medicalBillDAO.checkDK(medicalBillRequest.getPID(),medicalBillRequest.getDoctorId())) {
-            return ResponseEntity.ok(new ObjectResponse("0","Đăng kí khám không thành công, đã đăng ký khám hôm nay",false,null));
-        }else {
+    public ResponseEntity<?> addMedicalBill (MedicalBillRequest medicalBillRequest) {
+        Calendar now = Calendar.getInstance();
+        int hour = now.get(Calendar.HOUR_OF_DAY);
+        if(hour < 8 || hour >= 18 ) {
+            return ResponseEntity.ok(new ObjectResponse("0", "Chưa đến giờ đăng ký", false, null));
+        }else if (medicalBillDAO.countBillByDoc(medicalBillRequest.getDoctorId()) >= 20) {
+            return ResponseEntity.ok(new ObjectResponse("0", "Đăng kí không thành công, quá lượt khám trong ngày", false, null));
+        } else if (medicalBillDAO.checkDK(medicalBillRequest.getPID(), medicalBillRequest.getDoctorId())) {
+            return ResponseEntity.ok(new ObjectResponse("0", "Đăng kí khám không thành công, đã đăng ký khám hôm nay", false, null));
+        } else {
 
             Patient customer = accountDAO.getUser(medicalBillRequest.getPID());
             Doctor doctor = doctorDAO.getDoctor(medicalBillRequest.getDoctorId());
@@ -70,7 +74,7 @@ public class MedicalBillService {
             medicalBill.setMedicalObject(medicalObjectDAO.getObject(1));
 
             medicalBillDAO.addMedicalBill(medicalBill);
-            return ResponseEntity.ok(new ObjectResponse("1","Đăng kí khám thành công",true,medicalBill));
+            return ResponseEntity.ok(new ObjectResponse("1", "Đăng kí khám thành công", true, medicalBill));
         }
     }
 

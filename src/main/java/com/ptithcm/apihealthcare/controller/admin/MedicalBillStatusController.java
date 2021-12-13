@@ -11,7 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/admin")
@@ -30,7 +33,7 @@ public class MedicalBillStatusController {
     @ResponseBody
     public ResponseEntity<?>remind(@RequestParam(value = "medicalId") int medicalId){
         MedicalBill medicalBill = medicalBillService.findMedicalBill(medicalId);
-        pushNotificationService.sendPushNotificationToToken(new PushNotificationRequest("Health Care","Nhắc bạn đến lịch khám bệnh","https://scontent.fdad1-2.fna.fbcdn.net/v/t39.30808-6/172539822_205327314811077_8309969083014784707_n.jpg?_nc_cat=106&ccb=1-5&_nc_sid=b9115d&_nc_ohc=NZMR5Pa2rm0AX-ZTlTt&_nc_ht=scontent.fdad1-2.fna&oh=f2e8217ee92d3b417d66c07b77d85b66&oe=61AB1E38",medicalBill.getPatient().getAccount().getToken()));
+        pushNotificationService.sendPushNotificationToToken(new PushNotificationRequest("Health Care","Nhắc bạn đến giờ khám bệnh",medicalBill.getDoctor().getImageUrl(),medicalBill.getPatient().getAccount().getToken()));
         return new ResponseEntity<>(new PushNotificationResponse(HttpStatus.OK.value(), "Notification has been sent."), HttpStatus.OK);
     }
 
@@ -42,7 +45,10 @@ public class MedicalBillStatusController {
         Boolean result = medicalBillStatusService.joinMedical(medicalId);
         if(result){
             MedicalBill medicalBill = medicalBillService.findMedicalBill(medicalId);
-            pushNotificationService.sendPushNotificationToToken(new PushNotificationRequest("Health Care","Nhắc bạn đến lịch khám bệnh","https://scontent.fdad1-2.fna.fbcdn.net/v/t39.30808-6/172539822_205327314811077_8309969083014784707_n.jpg?_nc_cat=106&ccb=1-5&_nc_sid=b9115d&_nc_ohc=NZMR5Pa2rm0AX-ZTlTt&_nc_ht=scontent.fdad1-2.fna&oh=f2e8217ee92d3b417d66c07b77d85b66&oe=61AB1E38",medicalBill.getPatient().getAccount().getToken()));
+            pushNotificationService.sendPushNotificationToToken(new PushNotificationRequest("Health Care","Nhắc bạn vào phòng khám bệnh",medicalBill.getDoctor().getImageUrl(),medicalBill.getPatient().getAccount().getToken()));
+
+            List<MedicalBill> medicalBillList = medicalBillService.getAllMedicalBill2ByDoctor(medicalBill.getDoctor().getDoctorId());
+            pushNotificationService.sendPushNotificationToToken(new PushNotificationRequest("Health Care","Nhắc bạn sắp đến lịch khám bệnh",medicalBill.getDoctor().getImageUrl(), medicalBillList.get(0).getPatient().getAccount().getToken()));
             return ResponseEntity.ok(new ObjectResponse("200","OK",result,null));
         }else
         return ResponseEntity.ok(new ObjectResponse("404","Lỗi khi tham gia khám",result,null));
@@ -60,5 +66,22 @@ public class MedicalBillStatusController {
     @ResponseBody
     public ResponseEntity<?>cancel(@RequestParam(value = "medicalId") int medicalId){
         return ResponseEntity.ok(new ObjectResponse("200","OK",medicalBillStatusService.cancel(medicalId),null));
+    }
+
+
+    //end of session
+    @CrossOrigin(origins = "http://localhost:3000", maxAge = 1000)
+    @PutMapping(value = "/end-session",produces = {MediaType.APPLICATION_JSON_VALUE})
+    @ResponseBody
+    public ResponseEntity<?>endSession(@RequestParam(value = "doctorId") int doctorId){
+        List<MedicalBill> result = medicalBillService.getAllMedicalBill2ByDoctor(doctorId);
+        if(result != null){
+            for(MedicalBill medicalBill : result){
+                medicalBillStatusService.cancel(medicalBill.getBillId());
+                pushNotificationService.sendPushNotificationToToken(new PushNotificationRequest("Health Care","Đã hết giờ làm việc. Phiếu của bạn bị hủy. Hãy quay lại vào ngày mai",medicalBill.getDoctor().getImageUrl(),medicalBill.getPatient().getAccount().getToken()));
+            }
+            return ResponseEntity.ok(new ObjectResponse("200","OK",true,null));
+        }else
+            return ResponseEntity.ok(new ObjectResponse("404","Lỗi khi tham gia khám",false,null));
     }
 }

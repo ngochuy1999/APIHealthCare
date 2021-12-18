@@ -16,6 +16,10 @@ public class TreatmentRegimenService {
     @Autowired
     private MedicalRecordDAO medicalRecordDAO;
 
+    public TreatmentRegimen findTreatmentRegiment(int id){
+        return treatmentRegimenDAO.findTreatmentRegimen(id);
+    }
+
 //    public TreatmentRegimen addTreatmentRegimen(TreatmentRegimenParam treatmentRegimenParam){
 //        try {
 //        TreatmentRegimen treatmentRegimen = new TreatmentRegimen();

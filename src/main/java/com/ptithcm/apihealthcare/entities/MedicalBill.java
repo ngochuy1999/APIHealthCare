@@ -6,11 +6,12 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.sql.Time;
+import java.sql.Timestamp;
 import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.List;
 
-@Table(name = "MedicalBill")
+@Table(name = "MedicalBillQueue")
 @Entity
 public class MedicalBill {
     @Id
@@ -18,13 +19,13 @@ public class MedicalBill {
     @Column(name = "billId",unique = true,nullable = false)
     private Integer billId;
 
-    @Column(name = "waitingTime")
-    private Time waitingTime;
+    @Column(name = "timePrediction")
+    private ZonedDateTime timePrediction;
 
 
     @DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
-    @Column(name = "date")
-    private ZonedDateTime date;
+    @Column(name = "dateCreate")
+    private ZonedDateTime dateCreate;
 
     @Column(name = "examinationFee",nullable = false)
     private float examinationFee;
@@ -63,20 +64,20 @@ public class MedicalBill {
         this.billId = billId;
     }
 
-    public Time getWaitingTime() {
-        return waitingTime;
+    public ZonedDateTime getTimePrediction() {
+        return timePrediction;
     }
 
-    public void setWaitingTime(Time waitingTime) {
-        this.waitingTime = waitingTime;
+    public void setTimePrediction(ZonedDateTime timePrediction) {
+        this.timePrediction = timePrediction;
     }
 
-    public ZonedDateTime getDate() {
-        return date;
+    public ZonedDateTime getDateCreate() {
+        return dateCreate;
     }
 
-    public void setDate(ZonedDateTime date) {
-        this.date = date;
+    public void setDateCreate(ZonedDateTime dateCreate) {
+        this.dateCreate = dateCreate;
     }
 
     public float getExaminationFee() {

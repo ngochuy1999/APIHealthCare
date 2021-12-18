@@ -1,8 +1,10 @@
 package com.ptithcm.apihealthcare.controller;
 
+import com.ptithcm.apihealthcare.entities.ConsultingRoom;
 import com.ptithcm.apihealthcare.entities.Doctor;
 import com.ptithcm.apihealthcare.entities.Speciality;
 import com.ptithcm.apihealthcare.model.reponse.ObjectResponse;
+import com.ptithcm.apihealthcare.service.ClinicService;
 import com.ptithcm.apihealthcare.service.DoctorService;
 import com.ptithcm.apihealthcare.service.SpecialityService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,16 @@ public class HomeRESTController {
     @Autowired
     private DoctorService doctorService;
 
+    @Autowired
+    private ClinicService clinicService;
+
+
+    @GetMapping(value = "/clinic",
+            produces = {MediaType.APPLICATION_JSON_VALUE})
+    @ResponseBody
+    public List<ConsultingRoom> getClinic(){
+        return  clinicService.getClinic();
+    }
 
     @GetMapping(value = "/topSpeciality",
             produces = {MediaType.APPLICATION_JSON_VALUE})

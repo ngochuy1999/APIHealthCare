@@ -62,6 +62,7 @@ public class TestResultController {
             testResult.setActive(1);
 
             testResultService.addTestResult1(testResult);
+            testResultService.doneResult(testFormId);
 
             return ResponseEntity.ok(new ObjectResponse("1", "Thêm kết quả xét nghiệm thành công", true, testResult));
 

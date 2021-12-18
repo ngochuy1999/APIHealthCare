@@ -15,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional
 public class PrescriptionService {
@@ -76,5 +78,9 @@ public class PrescriptionService {
             System.out.println("Loi" + e);
         }
         return null;
+    }
+
+    public List<Prescription> prescriptionList(int treatmentId){
+        return prescriptionDAO.prescriptionList(treatmentId);
     }
 }

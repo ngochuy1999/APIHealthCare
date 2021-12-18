@@ -1,10 +1,13 @@
 package com.ptithcm.apihealthcare.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.Cascade;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 
 @Entity
@@ -60,6 +63,11 @@ public class Account {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name ="roleId",nullable = false)
     private Role role;
+
+    @JsonIgnore
+    @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
+    @OneToMany(mappedBy = "account", fetch = FetchType.LAZY)
+    private List<Notification> notifications;
 
     public int getAccountId() {
         return accountId;

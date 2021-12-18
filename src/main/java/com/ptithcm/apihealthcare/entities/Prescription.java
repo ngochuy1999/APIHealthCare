@@ -33,9 +33,7 @@ public class Prescription {
         this.id = id;
     }
 
-    public TreatmentRegimen getTreatmentRegimen() {
-        return treatmentRegimen;
-    }
+
 
     public void setTreatmentRegimen(TreatmentRegimen treatmentRegimen) {
         this.treatmentRegimen = treatmentRegimen;

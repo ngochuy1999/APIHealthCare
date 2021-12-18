@@ -36,7 +36,7 @@ public class TestFormService {
 
 
     //create test form
-    public TestForm addTestForm(int billId, String diagnostic){
+    public TestForm addTestForm(Integer billId, String diagnostic){
         TestForm testForm = new TestForm();
         testForm.setMedicalBill(medicalBillDAO.findMedicalBill(billId));
         testForm.setDiagnostic(diagnostic);

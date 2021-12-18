@@ -27,6 +27,14 @@ public class TestResultService {
         return testResultDAO.testResultList(testFormId);
     }
 
+    public Boolean doneResult(int id){
+        return testResultDAO.doneResult(id);
+    }
+
+    public List<TestResult> testResultListUser(int pId){
+        return testResultDAO.testResultListUser(pId);
+    }
+
     public TestResult addTestResult(TestResultParam testResultParam){
         TestResult testResult = new TestResult();
         testResult.setTestForm(testFormDAO.findTestForm(testResultParam.getTestFormId()));

@@ -16,11 +16,15 @@ public class Prescription {
     @JoinColumn(name = "treatmentId")
     private TreatmentRegimen treatmentRegimen;
 
+    @ManyToOne
+    @MapsId("medicineId")
+    @JoinColumn(name = "medicineId")
+    private Medicine medicine;
+
+
     @Column(name = "quantity",nullable = false)
     private Integer quantity;
 
-    @Column(name = "dosage",nullable = false)
-    private String dosage;
 
     @Column(name = "active")
     private Integer active;
@@ -33,7 +37,13 @@ public class Prescription {
         this.id = id;
     }
 
+    public Medicine getMedicine() {
+        return medicine;
+    }
 
+    public void setMedicine(Medicine medicine) {
+        this.medicine = medicine;
+    }
 
     public void setTreatmentRegimen(TreatmentRegimen treatmentRegimen) {
         this.treatmentRegimen = treatmentRegimen;
@@ -45,14 +55,6 @@ public class Prescription {
 
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
-    }
-
-    public String getDosage() {
-        return dosage;
-    }
-
-    public void setDosage(String dosage) {
-        this.dosage = dosage;
     }
 
     public Integer getActive() {

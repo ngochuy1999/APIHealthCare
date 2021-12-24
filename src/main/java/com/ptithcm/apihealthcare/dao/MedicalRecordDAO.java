@@ -16,7 +16,7 @@ public class MedicalRecordDAO {
 
     public List<MedicalRecord> getListMedicalRecords(int PID){
         Session session = sessionFactory.getCurrentSession();
-        return (List<MedicalRecord>) session.createQuery("from MedicalRecord as m where m.medicalBill.patient.userId ='"+PID+"'").list();
+        return (List<MedicalRecord>) session.createQuery("from MedicalRecord as m where m.medicalBill.patient.userId ='"+PID+"' order by recordId DESC ").list();
     }
 
     public MedicalRecord findMedicalRecords(int medicalId){

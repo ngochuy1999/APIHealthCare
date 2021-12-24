@@ -54,10 +54,14 @@ public class MedicalBillStatusController {
             pushNotificationService.sendPushNotificationToToken(new PushNotificationRequest("Health Care","Nhắc bạn vào phòng khám bệnh",medicalBill.getDoctor().getImageUrl(),medicalBill.getPatient().getAccount().getToken()));
             notificationService.addNotification(new NotificationParam("Nhắc bạn vào phòng khám bệnh",medicalBill.getPatient().getUserId()));
 
-            List<MedicalBill> medicalBillList = medicalBillService.getAllMedicalBill2ByDoctor(medicalBill.getDoctor().getDoctorId());
-            pushNotificationService.sendPushNotificationToToken(new PushNotificationRequest("Health Care","Nhắc bạn sắp đến lịch khám bệnh",medicalBill.getDoctor().getImageUrl(), medicalBillList.get(0).getPatient().getAccount().getToken()));
-            notificationService.addNotification(new NotificationParam("Nhắc bạn sắp đến lịch khám bệnh",medicalBillList.get(0).getPatient().getUserId()));
-            return ResponseEntity.ok(new ObjectResponse("200","OK",result,null));
+            try {
+                List<MedicalBill> medicalBillList = medicalBillService.getAllMedicalBill2ByDoctor(medicalBill.getDoctor().getDoctorId());
+                pushNotificationService.sendPushNotificationToToken(new PushNotificationRequest("Health Care", "Nhắc bạn sắp đến lịch khám bệnh", medicalBill.getDoctor().getImageUrl(), medicalBillList.get(0).getPatient().getAccount().getToken()));
+                notificationService.addNotification(new NotificationParam("Nhắc bạn sắp đến lịch khám bệnh", medicalBillList.get(0).getPatient().getUserId()));
+            }catch(Exception ex){
+                return ResponseEntity.ok(new ObjectResponse("200", "OK", result, null));
+            }
+            return ResponseEntity.ok(new ObjectResponse("200", "OK", result, null));
         }else
         return ResponseEntity.ok(new ObjectResponse("404","Lỗi khi tham gia khám",result,null));
     }

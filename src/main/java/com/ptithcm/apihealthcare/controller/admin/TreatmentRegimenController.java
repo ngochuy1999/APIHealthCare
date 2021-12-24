@@ -1,18 +1,20 @@
 package com.ptithcm.apihealthcare.controller.admin;
 
-import com.ptithcm.apihealthcare.entities.MedicalRecord;
-import com.ptithcm.apihealthcare.entities.Prescription;
-import com.ptithcm.apihealthcare.entities.TreatmentRegimen;
+import com.ptithcm.apihealthcare.dao.MedicineDAO;
+import com.ptithcm.apihealthcare.entities.*;
 import com.ptithcm.apihealthcare.model.reponse.ObjectResponse;
 import com.ptithcm.apihealthcare.model.request.PrescriptionParam;
 import com.ptithcm.apihealthcare.model.request.TreatmentRegimenParam;
 import com.ptithcm.apihealthcare.service.MedicalBillStatusService;
+import com.ptithcm.apihealthcare.service.MedicineService;
 import com.ptithcm.apihealthcare.service.PrescriptionService;
 import com.ptithcm.apihealthcare.service.TreatmentRegimenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/admin")
@@ -25,6 +27,9 @@ public class TreatmentRegimenController {
 
     @Autowired
     private MedicalBillStatusService medicalBillStatusService;
+
+    @Autowired
+    private MedicineService medicineService;
 
 //    @PostMapping(value = "/create-treatment",
 //            produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -47,5 +52,12 @@ public class TreatmentRegimenController {
             medicalBillStatusService.complete(treatmentRegimenParam.getMedicalBillId());
             return ResponseEntity.ok(new ObjectResponse("1","Tạo đơn thuốc thành công",true,result));
         }
+    }
+    @CrossOrigin(origins = "http://localhost:3000", maxAge = 1000)
+    @GetMapping(value = "/medicine",
+            produces = {MediaType.APPLICATION_JSON_VALUE})
+    @ResponseBody
+    public List<Medicine> getListMedicine() {
+        return medicineService.medicineList();
     }
 }

@@ -226,4 +226,8 @@ public class Doctor {
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
+
+    public Speciality getSpeciality() {
+        return speciality;
+    }
 }

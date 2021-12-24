@@ -1,9 +1,6 @@
 package com.ptithcm.apihealthcare.service;
 
-import com.ptithcm.apihealthcare.dao.MedicalBillDAO;
-import com.ptithcm.apihealthcare.dao.MedicalRecordDAO;
-import com.ptithcm.apihealthcare.dao.PrescriptionDAO;
-import com.ptithcm.apihealthcare.dao.TreatmentRegimenDAO;
+import com.ptithcm.apihealthcare.dao.*;
 import com.ptithcm.apihealthcare.entities.MedicalRecord;
 import com.ptithcm.apihealthcare.entities.Prescription;
 import com.ptithcm.apihealthcare.entities.PrescriptionKey;
@@ -31,6 +28,9 @@ public class PrescriptionService {
 
     @Autowired
     private MedicalRecordDAO medicalRecordDAO;
+
+    @Autowired
+    private MedicineDAO medicineDAO;
 
     // create prescription
     public MedicalRecord addPrescription (TreatmentRegimenParam treatmentRegimenParam) {
@@ -62,10 +62,10 @@ public class PrescriptionService {
                 Prescription prescription = new Prescription();
                 PrescriptionKey ik = new PrescriptionKey();
                 ik.setTreatmentId(treatmentRegimen.getTreatmentId());
-                ik.setMedicineName(prescriptionParam.getName());
+                ik.setMedicineId(prescriptionParam.getMedicineId());
 
                 prescription.setId(ik);
-                prescription.setDosage(prescriptionParam.getDosage());
+                prescription.setMedicine(medicineDAO.findMedicine(prescriptionParam.getMedicineId()));
                 prescription.setQuantity(prescriptionParam.getQuantity());
                 prescription.setTreatmentRegimen(treatmentRegimen);
                 prescription.setActive(1);

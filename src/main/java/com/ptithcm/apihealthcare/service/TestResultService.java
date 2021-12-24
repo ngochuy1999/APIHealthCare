@@ -4,10 +4,12 @@ import com.ptithcm.apihealthcare.dao.DoctorDAO;
 import com.ptithcm.apihealthcare.dao.TestFormDAO;
 import com.ptithcm.apihealthcare.dao.TestResultDAO;
 import com.ptithcm.apihealthcare.entities.TestResult;
+import com.ptithcm.apihealthcare.entities.TestResultDetail;
 import com.ptithcm.apihealthcare.model.request.TestResultParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -35,15 +37,12 @@ public class TestResultService {
         return testResultDAO.testResultListUser(pId);
     }
 
-    public TestResult addTestResult(TestResultParam testResultParam){
+    public TestResult addTestResult(Integer doctorId, Integer testFormId ){
         TestResult testResult = new TestResult();
-        testResult.setTestForm(testFormDAO.findTestForm(testResultParam.getTestFormId()));
-        testResult.setConclude(testResultParam.getConclude());
+        testResult.setTestForm(testFormDAO.findTestForm(testFormId));
         long millis=System.currentTimeMillis();   java.sql.Date date=new java.sql.Date(millis);
         testResult.setDate(date);
-        testResult.setDoctor(doctorDAO.getDoctor(testResultParam.getDoctorId()));
-        testResult.setFileUrl(testResultParam.getFileUrl());
-        testResult.setImageUrl(testResultParam.getImageUrl());
+        testResult.setDoctor(doctorDAO.getDoctor(doctorId));
         testResult.setActive(1);
 
         testResultDAO.addTestResult(testResult);
@@ -54,4 +53,17 @@ public class TestResultService {
         testResultDAO.addTestResult(testResult);
         return testResult;
     }
+
+    public TestResult findTestResult(Integer resultId){
+        return  testResultDAO.findTestResult(resultId);
+    }
+
+    public TestResultDetail addImageTestResult(TestResultDetail imageTestResult){
+        return testResultDAO.addImageTestResult(imageTestResult);
+    }
+
+    public List<TestResultDetail> imageTestResults(int testId){
+        return testResultDAO.imageTestResult(testId);
+    }
+
 }

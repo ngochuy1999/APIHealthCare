@@ -41,6 +41,8 @@ public class MedicalBillService {
     public ResponseEntity<?> addMedicalBill (MedicalBillRequest medicalBillRequest) {
         Calendar now = Calendar.getInstance();
         int hour = now.get(Calendar.HOUR_OF_DAY);
+
+  //      || String.valueOf(now.getTime()).startsWith("Sun")
         if(hour < 8 || hour >= 18 || String.valueOf(now.getTime()).startsWith("Sun") ) {
             return ResponseEntity.ok(new ObjectResponse("0", "Chưa đến giờ đăng ký", false, null));
         }else
@@ -70,7 +72,7 @@ public class MedicalBillService {
 
             medicalBill.setTimePrediction(ZonedDateTime.ofInstant(calendar.toInstant(), ZoneId.systemDefault()));
             medicalBill.setDateCreate(ZonedDateTime.now());
-            medicalBill.setExaminationFee(20000);
+            medicalBill.setExaminationFee(20);
             medicalBill.setMedicalBillStatus(medicalStatusDAO.getStatus(1));
             medicalBill.setMedicalObject(medicalObjectDAO.getObject(1));
 

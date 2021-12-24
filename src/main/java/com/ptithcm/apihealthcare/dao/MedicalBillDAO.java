@@ -35,7 +35,8 @@ public class MedicalBillDAO {
 
     public Boolean charge(ChargeRequest chargeRequest){
         Session session = sessionFactory.openSession();
-        List<TestForm> testForms =(List<TestForm>) session.createQuery("from TestForm as t where t.medicalBill.billId= '"+chargeRequest.getBillId()+"'").list();
+        List<TestForm> testForms =(List<TestForm>) session
+                .createQuery("from TestForm as t where t.medicalBill.billId= '"+chargeRequest.getBillId()+"'").list();
             for (TestForm testForm : testForms) {
                 Transaction t = session.beginTransaction();
                 try {
@@ -53,14 +54,16 @@ public class MedicalBillDAO {
 
     public List<MedicalBill> getMedicalBillByDoctor(int doctorId) {
         Session session = sessionFactory.getCurrentSession();
-        List<MedicalBill> medicalBills = (List<MedicalBill>) session.createQuery("from MedicalBill b where b.doctor.doctorId = " + doctorId + " and b.medicalBillStatus.statusId = 1").list();
+        List<MedicalBill> medicalBills = (List<MedicalBill>) session.createQuery("from MedicalBill b " +
+                        "where b.doctor.doctorId = " + doctorId + " and b.medicalBillStatus.statusId = 1").list();
         return medicalBills;
     }
 
     public int countBillByDoc(int doctorId) {
         long millis=System.currentTimeMillis();   java.sql.Date date=new java.sql.Date(millis);
         Session session = sessionFactory.getCurrentSession();
-        List<MedicalBill> medicalBills = (List<MedicalBill>) session.createQuery("from MedicalBill b where b.doctor.doctorId = " + doctorId + " and (b.medicalBillStatus.statusId = 1 or b.medicalBillStatus.statusId=2) and b.dateCreate BETWEEN '"+date+" 00:00:00' AND '"+date+" 23:59:59'").list();
+        List<MedicalBill> medicalBills = (List<MedicalBill>) session.createQuery("from MedicalBill b " +
+                        "where b.doctor.doctorId = " + doctorId + " and (b.medicalBillStatus.statusId = 1 or b.medicalBillStatus.statusId=2) and b.dateCreate BETWEEN '"+date+" 00:00:00' AND '"+date+" 23:59:59'").list();
         if(medicalBills == null) return 0;
         else return medicalBills.size();
     }
@@ -68,39 +71,45 @@ public class MedicalBillDAO {
     public Boolean checkDK(int patientID, int doctorId) {
         long millis=System.currentTimeMillis();   java.sql.Date date=new java.sql.Date(millis);
         Session session = sessionFactory.getCurrentSession();
-        MedicalBill medicalBills = (MedicalBill) session.createQuery("from MedicalBill b where b.doctor.doctorId = " + doctorId + " and b.patient.userId =" + patientID + " and (b.medicalBillStatus.statusId = 1 or b.medicalBillStatus.statusId=2) and b.dateCreate BETWEEN '"+date+" 00:00:00' AND '"+date+" 23:59:59'").uniqueResult();
+        MedicalBill medicalBills = (MedicalBill) session.createQuery("from MedicalBill b" +
+                " where b.doctor.doctorId = " + doctorId + " and b.patient.userId =" + patientID + " and (b.medicalBillStatus.statusId = 1 or b.medicalBillStatus.statusId=2) and b.dateCreate BETWEEN '"+date+" 00:00:00' AND '"+date+" 23:59:59'").uniqueResult();
         return (medicalBills != null);
     }
 
     public List<MedicalBill> getMedicalBillByPatient(int PID) {
         Session session = sessionFactory.getCurrentSession();
-        List<MedicalBill> medicalBills = (List<MedicalBill>) session.createQuery("from MedicalBill b where b.patient.userId = " + PID + " and (b.medicalBillStatus.statusId = 1 or b.medicalBillStatus.statusId = 2)").list();
+        List<MedicalBill> medicalBills = (List<MedicalBill>) session.createQuery("from MedicalBill b " +
+                        "where b.patient.userId = " + PID + " and (b.medicalBillStatus.statusId = 1 or b.medicalBillStatus.statusId = 2)").list();
         return medicalBills;
     }
 
     public List<MedicalBill> getMedicalBill2ByDoctor(int doctorId) {
         Session session = sessionFactory.getCurrentSession();
-        List<MedicalBill> medicalBills = (List<MedicalBill>) session.createQuery("from MedicalBill b where b.doctor.doctorId = " + doctorId + " and b.medicalBillStatus.statusId = 1").list();
+        List<MedicalBill> medicalBills = (List<MedicalBill>) session.createQuery("from MedicalBill b " +
+                        "where b.doctor.doctorId = " + doctorId + " and b.medicalBillStatus.statusId = 1 ORDER BY dateCreate ASC").list();
         return medicalBills;
     }
 
     public List<MedicalBill> getMedicalBillByDoctorOnDay(int doctorId) {
         long millis=System.currentTimeMillis();   java.sql.Date date=new java.sql.Date(millis);
         Session session = sessionFactory.getCurrentSession();
-        List<MedicalBill> medicalBills = (List<MedicalBill>) session.createQuery("from MedicalBill b where b.doctor.doctorId = " + doctorId + " and b.medicalBillStatus.statusId = 1 and b.dateCreate BETWEEN '"+date+" 00:00:00' AND '"+date+" 23:59:59'").list();
+        List<MedicalBill> medicalBills = (List<MedicalBill>) session.createQuery("from MedicalBill b " +
+                        "where b.doctor.doctorId = " + doctorId + " and b.medicalBillStatus.statusId = 1 and b.dateCreate BETWEEN '"+date+" 00:00:00' AND '"+date+" 23:59:59'").list();
         return medicalBills;
     }
 
     public List<MedicalBill> getMedicalExamineByDoctor(int id) {
         Session session = sessionFactory.getCurrentSession();
-        List<MedicalBill> medicalBill = (List<MedicalBill>) session.createQuery("from MedicalBill b where b.doctor.doctorId = " + id + " and b.medicalBillStatus.statusId = 2").list();
+        List<MedicalBill> medicalBill = (List<MedicalBill>) session.createQuery("from MedicalBill b " +
+                        "where b.doctor.doctorId = " + id + " and b.medicalBillStatus.statusId = 2").list();
         return medicalBill;
     }
 
 
     public MedicalBill findMedicalBill(int billId){
         Session session = sessionFactory.getCurrentSession();
-        MedicalBill medicalBill = (MedicalBill) session.createQuery("from MedicalBill b where b.billId = '"+billId+"'").uniqueResult();
+        MedicalBill medicalBill = (MedicalBill) session
+                .createQuery("from MedicalBill b where b.billId = '"+billId+"'").uniqueResult();
         return medicalBill;
     }
 }

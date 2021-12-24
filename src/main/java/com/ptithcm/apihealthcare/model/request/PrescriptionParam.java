@@ -2,19 +2,16 @@ package com.ptithcm.apihealthcare.model.request;
 
 public class PrescriptionParam {
 
-    private String name;
+    private Integer medicineId;
 
     private Integer quantity;
 
-    private String dosage;
-
-
-    public String getName() {
-        return name;
+    public Integer getMedicineId() {
+        return medicineId;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setMedicineId(Integer medicineId) {
+        this.medicineId = medicineId;
     }
 
     public Integer getQuantity() {
@@ -23,14 +20,6 @@ public class PrescriptionParam {
 
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
-    }
-
-    public String getDosage() {
-        return dosage;
-    }
-
-    public void setDosage(String dosage) {
-        this.dosage = dosage;
     }
 
 }

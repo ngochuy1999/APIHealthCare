@@ -2,6 +2,7 @@ package com.ptithcm.apihealthcare.dao;
 
 import com.ptithcm.apihealthcare.entities.TestForm;
 import com.ptithcm.apihealthcare.entities.TestResult;
+import com.ptithcm.apihealthcare.entities.TestResultDetail;
 import com.ptithcm.apihealthcare.model.request.ChargeRequest;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -24,7 +25,12 @@ public class TestResultDAO {
 
     public List<TestResult> testResultListUser(int pId){
         Session session = sessionFactory.getCurrentSession();
-        return (List<TestResult>) session.createQuery("from TestResult as t where t.testForm.medicalBill.patient.userId ='"+pId+"'").list();
+        return (List<TestResult>) session.createQuery("from TestResult as t where t.testForm.medicalBill.patient.userId ='"+pId+"' order by resultId DESC").list();
+    }
+
+    public TestResult findTestResult(int resultId){
+        Session session = sessionFactory.getCurrentSession();
+        return (TestResult) session.createQuery("from TestResult as t where t.resultId ='"+resultId+"'").uniqueResult();
     }
 
     public Boolean doneResult(int testId) {
@@ -48,4 +54,17 @@ public class TestResultDAO {
         session.save(testResult);
         return testResult;
     }
+
+    public TestResultDetail addImageTestResult(TestResultDetail imageTestResult){
+        Session session = sessionFactory.getCurrentSession();
+        session.save(imageTestResult);
+        return imageTestResult;
+    }
+
+
+    public List<TestResultDetail> imageTestResult(int testResultId){
+        Session session = sessionFactory.getCurrentSession();
+        return (List<TestResultDetail>) session.createQuery("from TestResultDetail as i where i.testResult.resultId='"+testResultId+"'").list();
+    }
+
 }
